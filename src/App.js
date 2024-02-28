@@ -14,18 +14,50 @@ const App = () => {
     "?",
     "?"
   ])
+//winning square
+  const [treasureLocation, setTreasureLocation] = useState (Math.floor(Math.random() * board.length))
+  console.log('Shiny',treasureLocation);
+
+//losing square
+const [bombLocation, setBombLocation] = useState (Math.floor(Math.random() * board.length))
+console.log('Boom', bombLocation);
 
 
   const handleGamePlay = (CurrentSquare) => {
-    const updatedBoard = [...board]
-      updatedBoard[CurrentSquare] = "🌳"
-      setBoard(updatedBoard)
+    if(CurrentSquare === treasureLocation) {
+      board[CurrentSquare] = "💎"
+          setBoard([...board])
+          alert("NOT ME TREASURE!")
+    } else if(CurrentSquare === bombLocation) {
+            board[CurrentSquare] = "💣"
+              setBoard([...board])
+            alert("KABOOM, Ya aint got no legs")
+    } else {
+      board[CurrentSquare] = "🌳"
+          setBoard([...board])
+      }
+    }
+  
+
+  const playAgain = () => {
+    setTreasureLocation(Math.floor(Math.random() * board.length))
+    setBombLocation(Math.floor(Math.random() * board.length))
+    
+    setBoard([
+      "?",
+      "?",
+      "?",
+      "?",
+      "?",
+      "?",
+      "?",
+      "?",
+      "?"
+    ])
+
   }
-  //or
-  // const handleGamePlay = (CurrentSquare) => {
-  //     board[CurrentSquare] = "🌳"
-  //     setBoard([...board])
-  // }
+
+      
 
   return (
     <>
@@ -37,9 +69,11 @@ const App = () => {
         square={square} 
         key={index}
         index={index} 
-        handleGamePlay={handleGamePlay}/>
+        handleGamePlay={handleGamePlay}
+        />
         )
       })}
+      <button onClick={playAgain}>Play Again</button>
       </div>
     </>
   )
